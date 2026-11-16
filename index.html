@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pratik Sukare | Embedded Systems Engineer</title>
+  <meta name="description" content="Embedded engineer with 3.5 years in industry: microcontroller firmware, industrial automation and IoT. Projects on ESP32 and STM32, with code and reports.">
+  <meta property="og:title" content="Pratik Sukare | Embedded Systems Engineer">
+  <meta property="og:description" content="Microcontroller firmware, industrial automation and IoT. Projects on ESP32 and STM32, with code and reports.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/tft-open.jpg">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230e1318'/%3E%3Crect x='5' y='5' width='10' height='10' fill='%23e5484d'/%3E%3Crect x='17' y='5' width='10' height='10' fill='%2323a559'/%3E%3Crect x='5' y='17' width='10' height='10' fill='%2323a559'/%3E%3Crect x='17' y='17' width='10' height='10' fill='%233b82c4'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#projects">Skip to projects</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#top">Pratik Sukare</a>
+      <nav aria-label="Sections">
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="hero wrap">
+      <div class="hero-text">
+        <p class="eyebrow">Embedded Systems · IoT · Industrial Automation</p>
+        <h1>Firmware that works on the bench and keeps working in the field.</h1>
+        <p class="lead">I'm Pratik Sukare, an embedded engineer with 3.5 years in industry. At Fluidyne I wrote the microcontroller firmware for flowmeters and level transmitters. Before that, at Wipro PARI, I programmed and commissioned PLC and robot stations. I'm now finishing an M.Eng. in Electrical and Microsystems Engineering at OTH Regensburg.</p>
+        <p class="status"><span class="dot" aria-hidden="true"></span>Open to a Master's thesis, working student or internship role in Germany.</p>
+        <div class="actions">
+          <a class="btn primary" href="#projects">See the projects</a>
+          <a class="btn" href="https://github.com/Pratik23597" rel="noopener">GitHub</a>
+          <a class="btn" href="mailto:pratiksukare235@gmail.com">Email me</a>
+        </div>
+      </div>
+
+      <figure class="panel" aria-label="Channel status screen">
+        <div class="screen">
+          <div class="screen-head">
+            <span>ALL CHANNELS</span>
+            <span class="counts"><b class="c-open">O:1</b> <b class="c-short">S:0</b> <b class="c-gnd">G:0</b></span>
+          </div>
+          <div class="grid" role="img" aria-label="24 LED channels. R0 reports an open LED, eight channels are OK, fifteen are not connected.">
+            <span class="cell open">R0</span><span class="cell ok">G0</span><span class="cell ok">B0</span><span class="cell ok">R1</span><span class="cell ok">G1</span><span class="cell ok">B1</span>
+            <span class="cell ok">R2</span><span class="cell ok">G2</span><span class="cell ok">B2</span><span class="cell nc">R3</span><span class="cell nc">G3</span><span class="cell nc">B3</span>
+            <span class="cell nc">R4</span><span class="cell nc">G4</span><span class="cell nc">B4</span><span class="cell nc">R5</span><span class="cell nc">G5</span><span class="cell nc">B5</span>
+            <span class="cell nc">R6</span><span class="cell nc">G6</span><span class="cell nc">B6</span><span class="cell nc">R7</span><span class="cell nc">G7</span><span class="cell nc">B7</span>
+          </div>
+          <div class="legend">
+            <span class="c-ok">OK</span><span class="c-open">OPEN</span><span class="c-short">SHORT</span><span class="c-gnd">GND</span><span class="c-nc">NC</span>
+          </div>
+        </div>
+        <figcaption>Redrawn from the status screen of my LED driver diagnostic platform, with an open LED injected on channel R0. The real screen is in the first project below.</figcaption>
+      </figure>
+    </section>
+
+    <section id="projects" class="wrap section">
+      <h2>Projects</h2>
+      <p class="section-intro">Three projects, newest first. Code and reports are public where I still have them.</p>
+
+      <article class="project">
+        <header>
+          <p class="meta">OTH Regensburg · 2026 · Team project</p>
+          <h3>Portable Automotive RGB Lighting Diagnostic Platform</h3>
+        </header>
+        <div class="project-body">
+          <div class="project-text">
+            <p>A portable test and control unit for the Texas Instruments TLC6C5724-Q1, a 24 channel constant current RGB LED driver for automotive lighting. An ESP32 drives every output, runs the driver's built-in diagnostics, and reports faults on a local TFT screen and on a Node-RED dashboard over MQTT.</p>
+            <p class="mypart"><strong>My part:</strong> all of the firmware, the diagnostics, the MQTT and Node-RED side, the validation with injected faults, both reports, and the TLC breakout PCB in KiCad. A teammate built the main hardware and drew the system schematic.</p>
+            <ul class="points">
+              <li>The driver interface is bit-banged on GPIO on purpose, so the LATCH timing is exact and easy to debug. The 1 MHz grayscale clock comes from the ESP32's LEDC hardware.</li>
+              <li>The main loop never blocks. MQTT messages are stored as pending commands and run by the loop, and the automatic LED tests are a small state machine.</li>
+              <li>The unit works without a network. If the broker disappears, it retries saved Wi-Fi profiles and returns to the preferred hotspot.</li>
+              <li>Every diagnostic was tested with a fixed procedure: healthy baseline, power off, apply the fault, run the diagnostic, check, restore, clear, check again.</li>
+            </ul>
+            <p><strong>Result:</strong> open and shorted LEDs, shorts to ground, adjacent pin shorts, and open and shorted reference resistor faults were all detected as expected.</p>
+          </div>
+          <dl class="spec">
+            <div><dt>Driver</dt><dd>TI TLC6C5724-Q1, 24 channels, 12 bit grayscale</dd></div>
+            <div><dt>Controller</dt><dd>ESP32 DevKit V1</dd></div>
+            <div><dt>Diagnostic functions</dt><dd>14</dd></div>
+            <div><dt>Automatic LED tests</dt><dd>6</dd></div>
+            <div><dt>Local interface</dt><dd>128 × 160 SPI TFT, three buttons</dd></div>
+            <div><dt>Remote interface</dt><dd>MQTT, Mosquitto, Node-RED Dashboard 2</dd></div>
+            <div><dt>Board design</dt><dd>TLC breakout PCB in KiCad</dd></div>
+          </dl>
+        </div>
+
+        <div class="gallery">
+          <figure class="tall">
+            <a href="assets/prototype.jpg"><img src="assets/prototype.jpg" width="900" height="1350" loading="lazy" alt="Breadboard prototype: ESP32 board, TFT display showing the overview page, the TLC breakout board and lit RGB LEDs."></a>
+            <figcaption>The prototype on the bench.</figcaption>
+          </figure>
+          <figure>
+            <a href="assets/tft-open.jpg"><img src="assets/tft-open.jpg" width="800" height="761" loading="lazy" alt="TFT screen with a grid of 24 channels. R0 is red and marked open, eight channels are green."></a>
+            <figcaption>Open LED detected on R0.</figcaption>
+          </figure>
+          <figure>
+            <a href="assets/tft-short.jpg"><img src="assets/tft-short.jpg" width="800" height="587" loading="lazy" alt="TFT screen with a grid of 24 channels. B2 is amber and marked short."></a>
+            <figcaption>Shorted LED detected on B2.</figcaption>
+          </figure>
+          <figure class="wide">
+            <a href="assets/dashboard-diagnostics.jpg"><img src="assets/dashboard-diagnostics.jpg" width="1600" height="746" loading="lazy" alt="Node-RED dashboard page listing diagnostic results, channel status, diagnostic controls and a device overview."></a>
+            <figcaption>Diagnostics page of the Node-RED dashboard.</figcaption>
+          </figure>
+          <figure class="full">
+            <a href="assets/dashboard-led-control.png"><img src="assets/dashboard-led-control.png" width="3796" height="834" loading="lazy" alt="Node-RED dashboard page with per-channel grayscale and dot correction sliders and buttons for six automatic LED tests."></a>
+            <figcaption>LED control page: grayscale and dot correction per channel, and the automatic tests.</figcaption>
+          </figure>
+          <figure class="full">
+            <a href="assets/architecture.jpg"><img src="assets/architecture.jpg" width="1448" height="960" loading="lazy" alt="System architecture: a laptop running a Wi-Fi hotspot, Mosquitto, Node-RED and a browser dashboard, linked over Wi-Fi and MQTT to the embedded unit with ESP32, TFT display, push buttons, the TLC6C5724-Q1 driver and RGB LED loads."></a>
+            <figcaption>System architecture, from the project report.</figcaption>
+          </figure>
+        </div>
+
+        <p class="links">
+          <a href="https://github.com/Pratik23597/tlc6c5724-diagnostic-platform" rel="noopener">Code on GitHub</a>
+          <a href="https://github.com/Pratik23597/tlc6c5724-diagnostic-platform/blob/main/reports/Project_Report.pdf" rel="noopener">Project report (PDF)</a>
+          <a href="https://github.com/Pratik23597/tlc6c5724-diagnostic-platform/blob/main/reports/Diagnostic_Validation_Report.pdf" rel="noopener">Validation report (PDF)</a>
+        </p>
+      </article>
+
+      <article class="project">
+        <header>
+          <p class="meta">C-DAC Pune · 2022 · Built on my own</p>
+          <h3>GPS/GSM Asset Tracking and Safety System on STM32F407</h3>
+        </header>
+        <div class="project-body">
+          <div class="project-text">
+            <p>A tracking unit on an STM32F407 Discovery board. It finds its position with a NEO-6M GPS module and talks to its owner by SMS and voice call through a Quectel M66 GSM modem. An ESP8266 forwards the location to a web server over MQTT.</p>
+            <ul class="points">
+              <li><strong>GPS:</strong> received on a UART with DMA. The $GPRMC sentence is parsed, converted to decimal degrees and sent as a Google Maps link.</li>
+              <li><strong>GSM:</strong> the modem is driven with AT commands for text messages and calls. Commands are accepted only from one authorised phone number.</li>
+              <li><strong>Vehicle mode:</strong> location on request, remote switching of the ignition relay, and an alert if the ignition line is tampered with.</li>
+              <li><strong>Personal safety mode:</strong> an SOS button sends the location to four contacts and calls the first one.</li>
+            </ul>
+            <p>The firmware is C on the STM32 HAL, written in STM32CubeIDE as a single main loop without an RTOS.</p>
+          </div>
+          <figure class="diagram">
+            <svg viewBox="0 0 420 330" role="img" aria-label="Block diagram. An STM32F407 in the centre connects to a NEO-6M GPS over UART with DMA, to a Quectel M66 GSM modem over UART with AT commands, to an ESP8266 over UART which publishes over MQTT, and to a relay, an SOS button and a tamper input over GPIO.">
+              <g class="d-line">
+                <path d="M150 62 H118"/><path d="M150 165 H118"/><path d="M150 268 H118"/>
+                <path d="M270 62 H302"/><path d="M270 165 H302"/><path d="M270 268 H302"/>
+              </g>
+              <rect class="d-core" x="150" y="20" width="120" height="290" rx="6"/>
+              <text class="d-core-t" x="210" y="160" text-anchor="middle">STM32</text>
+              <text class="d-core-t" x="210" y="182" text-anchor="middle">F407</text>
+              <g class="d-box">
+                <rect x="8" y="38" width="110" height="48" rx="5"/><rect x="8" y="141" width="110" height="48" rx="5"/><rect x="8" y="244" width="110" height="48" rx="5"/>
+                <rect x="302" y="38" width="110" height="48" rx="5"/><rect x="302" y="141" width="110" height="48" rx="5"/><rect x="302" y="244" width="110" height="48" rx="5"/>
+              </g>
+              <g class="d-t" text-anchor="middle">
+                <text x="63" y="58">NEO-6M GPS</text><text class="d-s" x="63" y="75">UART + DMA</text>
+                <text x="63" y="161">M66 GSM</text><text class="d-s" x="63" y="178">UART, AT</text>
+                <text x="63" y="264">ESP8266</text><text class="d-s" x="63" y="281">UART to MQTT</text>
+                <text x="357" y="58">Ignition relay</text><text class="d-s" x="357" y="75">GPIO out</text>
+                <text x="357" y="161">SOS button</text><text class="d-s" x="357" y="178">GPIO in</text>
+                <text x="357" y="264">Tamper input</text><text class="d-s" x="357" y="281">GPIO in</text>
+              </g>
+            </svg>
+            <figcaption>What is connected to the microcontroller.</figcaption>
+          </figure>
+        </div>
+        <p class="links">
+          <a href="https://github.com/Pratik23597/stm32-gps-gsm-asset-tracker" rel="noopener">Code on GitHub</a>
+        </p>
+      </article>
+
+      <article class="project">
+        <header>
+          <p class="meta">C-DAC Pune · 2022 · Team of five</p>
+          <h3>Vision-Based Pick-and-Place Robot Manipulator</h3>
+        </header>
+        <div class="project-body single">
+          <div class="project-text">
+            <p>A Raspberry Pi with a camera finds a metal object using Python and OpenCV and sends its coordinates over UART to an STM32F407. The microcontroller drives NEMA 17 stepper motors through DRV8825 drivers and switches an electromagnet to pick the object up.</p>
+            <p class="mypart"><strong>My part:</strong> the camera vision and the stepper driver side. I wired and integrated the motors, drivers and STM32, parsed the coordinates coming from the Pi, turned each target into a direction and step count per axis, generated the step pulses with speed set by pulse timing, read the limit switches for a reference position, and switched the electromagnet relay.</p>
+            <p class="note">The code for this one is no longer available.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section id="experience" class="wrap section">
+      <h2>Experience</h2>
+
+      <article class="job">
+        <div class="job-head">
+          <h3>Embedded Software Engineer</h3>
+          <p class="meta">Fluidyne Control Systems, Pune, India · 11/2022 to 02/2024</p>
+        </div>
+        <ul class="points">
+          <li>The only embedded software engineer during my time there. My firmware shipped in the products.</li>
+          <li>MSP430 and PIC32 firmware for digital flowmeters, liquid dispensers and level transmitters, including the flow and level measurement algorithms.</li>
+          <li>Modbus, HART, I2C and SPI communication with DACs, LCDs, GSM and GPS modules. The instruments reported to PLCs over Modbus and HART.</li>
+          <li>Unit and integration testing before each release, plus the user manuals and release notes.</li>
+        </ul>
+      </article>
+
+      <article class="job">
+        <div class="job-head">
+          <h3>Controls Software Engineer <span class="sub">(Member, Detailing Controls)</span></h3>
+          <p class="meta">Wipro PARI, Shirwal, India · 07/2019 to 09/2021</p>
+        </div>
+        <ul class="points">
+          <li>PLC programs in Siemens STEP 7 and TIA Portal V16, written from functional specifications, with HMI screens and Cognex In-Sight vision systems.</li>
+          <li>Installation, commissioning and start-up on the shop floor and at customer sites, including validation of safety functions.</li>
+          <li>ABB, FANUC and KUKA robots: the handshake between PLC and robot, teaching positions on the pendant, robot programs, and offline simulation in RobotStudio, ROBOGUIDE and KUKA.Sim.</li>
+        </ul>
+      </article>
+
+      <h3 class="minor">Education</h3>
+      <ul class="edu">
+        <li><strong>M.Eng. Electrical and Microsystems Engineering</strong><span>OTH Regensburg, Germany · 03/2024 to present</span></li>
+        <li><strong>Postgraduate Diploma in Embedded Systems Design</strong><span>C-DAC, Pune, India · 2022 · 900 hours, full time</span></li>
+        <li><strong>B.E. Electrical Engineering</strong><span>Savitribai Phule Pune University, India · 2016 to 2019</span></li>
+      </ul>
+    </section>
+
+    <section id="skills" class="wrap section">
+      <h2>Skills</h2>
+      <p class="section-intro">Only what I have used in a job or a project. Coursework is marked as coursework.</p>
+      <dl class="spec skills">
+        <div><dt>Languages</dt><dd>Embedded C, C++, Python</dd></div>
+        <div><dt>Microcontrollers</dt><dd>STM32 (ARM Cortex-M), ESP32, TI MSP430, PIC32</dd></div>
+        <div><dt>Interfaces</dt><dd>UART, SPI, I2C, ADC, PWM</dd></div>
+        <div><dt>Protocols</dt><dd>Modbus, HART, MQTT, NMEA, GSM and GPS modules with AT commands</dd></div>
+        <div><dt>Firmware</dt><dd>Bare metal firmware, non-blocking main loops, state machines, DMA and interrupt driven serial I/O</dd></div>
+        <div><dt>Testing and debug</dt><dd>Unit and integration testing of firmware, fault injection, oscilloscope, logic analyser, GDB, OpenOCD, J-Link</dd></div>
+        <div><dt>Tools</dt><dd>STM32CubeIDE, Code Composer Studio, MPLAB X, KiCad, Git, Node-RED, Mosquitto, Wireshark</dd></div>
+        <div><dt>Automation</dt><dd>Siemens STEP 7 and TIA Portal, HMI design, Cognex In-Sight, ABB, FANUC and KUKA robots</dd></div>
+        <div><dt>Coursework</dt><dd>FreeRTOS, Zephyr RTOS, embedded Linux and Linux device drivers (C-DAC)</dd></div>
+        <div><dt>Spoken languages</dt><dd>English (C2), German (B1)</dd></div>
+      </dl>
+    </section>
+
+    <section id="contact" class="wrap section contact">
+      <h2>Contact</h2>
+      <p class="lead">I'm based in Regensburg and will move anywhere in Germany for the right role. The quickest way to reach me is email.</p>
+      <div class="actions">
+        <a class="btn primary" href="mailto:pratiksukare235@gmail.com">pratiksukare235@gmail.com</a>
+        <a class="btn" href="https://www.linkedin.com/in/pratiksukare" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://github.com/Pratik23597" rel="noopener">GitHub</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap site-footer">
+    <p>© 2026 Pratik Sukare</p>
+    <p>Plain HTML and CSS. No tracking, no cookies, no external requests.</p>
+  </footer>
+</body>
+</html>
